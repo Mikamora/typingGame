@@ -15,6 +15,7 @@ $sentence.text(sentences[i]);
 
 
 $(document).keydown(logKey);
+$(document).keypress(press);
 $(document).keyup(unlogKey);
 
 function start() {
@@ -68,26 +69,8 @@ function unlogKey(e) {
     }
 }
 
-
-function logKey(e) {
-    if (started == 0) {
-        start();
-        started++;
-    }
-    if (e.keyCode == 16) {
-        $lowerKeyboard.css("display", "none");
-        $upperKeyboard.css("display", "block");
-    }
-    if (e.keyCode != 16) {
-        if ($upperKeyboard.css("display") == "block") {
-            let $var = $("#" + e.keyCode);
-            $var.css("background-color", "yellow");
-        } else {
-            let $var1 = $("#" + (e.keyCode + 32));
-            $var1.css("background-color", "yellow");
-        }
-
-
+function press(e){
+    if(e.keyCode != 16){
         let str = sentences[i];
         let partOfStr = str.substr(letterNum, (letterNum + 1));
         let partOfStr1 = str.substr((letterNum + 1), (letterNum + 2));
@@ -96,7 +79,7 @@ function logKey(e) {
         let letter = String.fromCharCode(code1);
         $("#target-letter").text(letter);
 
-        if (code == e.keyCode || code == (e.keyCode + 32)) {
+        if (code == e.keyCode) {
             $yellow.css("margin", `10px 0 0 ${.72 * (letterNum + 1)}em`);
             $yellow.css("padding-right", "6px");
             let $span = $("<span style='font-size: 10.5px'>✅</span>");
@@ -122,6 +105,26 @@ function logKey(e) {
             $yellow.css("padding", "0 15px");
             $yellow.css("margin", "10px -15px 0");
             $feedback.empty();
+        }
+    }
+}
+
+function logKey(e) {
+    if (started == 0) {
+        start();
+        started++;
+    }
+    if (e.keyCode == 16) {
+        $lowerKeyboard.css("display", "none");
+        $upperKeyboard.css("display", "block");
+    }
+    if (e.keyCode != 16) {
+        if ($upperKeyboard.css("display") == "block") {
+            let $var = $("#" + e.keyCode);
+            $var.css("background-color", "yellow");
+        } else {
+            let $var1 = $("#" + (e.keyCode + 32));
+            $var1.css("background-color", "yellow");
         }
 
 
