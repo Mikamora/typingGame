@@ -9,13 +9,14 @@ let fail = 0;
 let succeed = 0;
 let i = 0;
 let started = 0;
+let codeKey = 0;
 var startTime, endTime;
 let sentences = ['ten ate neite ate nee enet ite ate inet ent eate ', 'Too ato too nOt enot one totA not anot tOO aNot ', 'oat itain oat tain nate eate tea anne inant nean ', 'itant eate anot eat nato inate eat anot tain eat ', 'nee ene ate ite tent tiet ent ine ene ete ene ate'];
+// let specialchar = [96, 126, 33, 64, 35, 36, 37, 94, 38, 42, 40, 41, 95, 43, 123, 125, 124, 58, 34, 60, 62, 63, 96, 45, 61, 91, 92, 93, 59, 39, 44, 46, 47];
 $sentence.text(sentences[i]);
 
-
-$(document).keydown(logKey);
 $(document).keypress(press);
+$(document).keydown(shift);
 $(document).keyup(unlogKey);
 
 function start() {
@@ -64,13 +65,32 @@ function unlogKey(e) {
     if (e.keyCode) {
         let $var = $("#" + e.keyCode);
         let $var1 = $("#" + (e.keyCode + 32));
+        let $var2 = $("#" + codeKey);
         $var.css("background-color", "#f5f5f5");
         $var1.css("background-color", "#f5f5f5");
+        $var2.css("background-color", "#f5f5f5");
     }
 }
 
-function press(e){
-    if(e.keyCode != 16){
+function shift(e){
+    if (e.keyCode == 16) {
+        $lowerKeyboard.css("display", "none");
+        $upperKeyboard.css("display", "block");
+    }
+}
+
+function press(e) {
+    if (started == 0) {
+        start();
+        started++;
+    }
+    console.log(e.keyCode);
+    if (e.keyCode) {
+        let $special = $("#" + e.keyCode);
+        $special.css("background-color", "yellow");
+        codeKey = e.keyCode;
+    }
+    if (e.keyCode != 16) {
         let str = sentences[i];
         let partOfStr = str.substr(letterNum, (letterNum + 1));
         let partOfStr1 = str.substr((letterNum + 1), (letterNum + 2));
@@ -109,24 +129,3 @@ function press(e){
     }
 }
 
-function logKey(e) {
-    if (started == 0) {
-        start();
-        started++;
-    }
-    if (e.keyCode == 16) {
-        $lowerKeyboard.css("display", "none");
-        $upperKeyboard.css("display", "block");
-    }
-    if (e.keyCode != 16) {
-        if ($upperKeyboard.css("display") == "block") {
-            let $var = $("#" + e.keyCode);
-            $var.css("background-color", "yellow");
-        } else {
-            let $var1 = $("#" + (e.keyCode + 32));
-            $var1.css("background-color", "yellow");
-        }
-
-
-    }
-}
